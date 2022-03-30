@@ -3,4 +3,4 @@ LABEL version="1.0.3" description="Aplicação ASP .NET Core MVC"
 COPY dist /app
 WORKDIR /app
 EXPOSE 80/tcp
-ENTRYPOINT ["dotnet", "DockerEssentials.dll"]
+ENTRYPOINT ["dotnet", "docker-essentials.dll"]

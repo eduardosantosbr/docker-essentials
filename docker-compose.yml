@@ -1,4 +1,4 @@
-version: "3.0.0"
+version: "3"
 
 volumes:
         produtosdata:
@@ -19,3 +19,17 @@ services:
           environment:
             - MYSQL_ROOT_PASSWORD=linuxens
             - bind-address=0.0.0.0
+
+        mvc:
+          build:
+            context: .
+            dockerfile: Dockerfile
+          networks:
+            - backend
+            - frontend
+          ports:
+            - 5000:80
+          environment:
+            - DBHOST=mysql
+          depends_on:
+            - mysql
