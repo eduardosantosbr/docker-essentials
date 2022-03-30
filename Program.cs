@@ -27,8 +27,6 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
-//PopulaDb.IncluiDadosDb(app);
-
 app.UseRouting();
 
 app.UseAuthorization();
