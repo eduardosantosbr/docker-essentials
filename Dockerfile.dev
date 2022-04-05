@@ -1,9 +1,20 @@
-FROM mcr.microsoft.com/dotnet/sdk:6.0
-RUN mkdir /app
+FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 WORKDIR /app
-COPY docker-essentials.csproj .
-RUN dotnet restore
+EXPOSE 80
+EXPOSE 443
+
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+WORKDIR /src
+COPY ["docker-essentials.csproj", "."]
+RUN dotnet restore "./docker-essentials.csproj"
 COPY . .
-RUN dotnet publish -c release -o dist
-EXPOSE 80/tcp
-CMD ["dotnet", "dist/docker-essentials.dll"]
+WORKDIR "/src/."
+RUN dotnet build "docker-essentials.csproj" -c Release -o /app/build
+
+FROM build AS publish
+RUN dotnet publish "docker-essentials.csproj" -c Release -o /app/publish
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "docker-essentials.dll"]
