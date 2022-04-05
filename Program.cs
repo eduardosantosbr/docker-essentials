@@ -5,7 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AcessoTotal", builder => builder
+    options.AddPolicy("AllowAnyOrigin", builder => builder
             .AllowAnyOrigin()
             .AllowAnyMethod()
             .AllowAnyHeader());
@@ -33,7 +33,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.UseCors("AcessoTotal");
+app.UseCors("AllowAnyOrigin");
 
 app.UseEndpoints(endpoints =>
 {
